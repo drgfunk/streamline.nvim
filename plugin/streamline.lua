@@ -7,4 +7,5 @@ end
 if vim.g.loaded_streamline ~= nil then
 	return
 end
+
 vim.g.loaded_streamline = 1
