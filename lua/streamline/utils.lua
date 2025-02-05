@@ -76,7 +76,7 @@ function M.get_filetype_icon()
 
 	-- get background color from StreamlineMode hl group as hex color
 	-- make a copy of the StreamlineMode hl group
-	local hl = vim.api.nvim_get_hl_by_name("StreamlineMode", true)
+	local hl = vim.api.nvim_get_hl_by_name("StreamlineFiletype", true)
 
 	-- apply hl to the icon string
 	local bg_color = string.format("%x", hl.background)

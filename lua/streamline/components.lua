@@ -23,7 +23,7 @@ function M.filetype()
 	local icon = require("streamline.utils").get_filetype_icon()
 	local ft = vim.bo.filetype
 
-	return "%#StreamlineMode#" .. icon .. " %#StreamlineMode#" .. ft .. " "
+	return "%#StreamlineFiletype#" .. icon .. " %#StreamlineFiletype#" .. ft .. " "
 end
 
 return M
