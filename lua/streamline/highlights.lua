@@ -15,7 +15,7 @@ function M.setup()
 		vim.api.nvim_set_hl(0, "StreamlineGitBranch", { fg = rose_pine.text, bg = rose_pine.overlay })
 		vim.api.nvim_set_hl(0, "StreamlineFilename", { fg = rose_pine.muted, bg = rose_pine.transparent })
 		vim.api.nvim_set_hl(0, "StreamlineModified", { fg = rose_pine.gold, bg = rose_pine.transparent })
-		vim.api.nvim_set_hl(0, "StreamlineFiletype", { fg = rose_pine.base, bg = rose_pine.love })
+		vim.api.nvim_set_hl(0, "StreamlineFiletype", { fg = rose_pine.base, bg = rose_pine.text })
 	end
 end
 
