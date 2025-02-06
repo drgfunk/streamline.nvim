@@ -30,7 +30,8 @@ Plug
 
 Default Options
 ```
-sections = {
+{
+    sections = {
 	left = {
 		"mode",
 		"git_branch",
@@ -40,5 +41,10 @@ sections = {
 	right = {
 		"filetype",
 	},
+    },
+    excluded_filetypes = {
+	"TelescopePrompt",
+	"snacks_picker_input",
+    },
 }
 ```
