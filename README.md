@@ -1,4 +1,13 @@
 # streamline.nvim
+A lightweight statusline plugin for Neovim focused on essential information with zero dependencies.
+
+## Features
+
+- File information (name, type)
+- Git branch
+- Vim mode indicator
+- Customizable highlights
+
 ## Installation 
 
 Lazy
