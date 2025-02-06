@@ -58,3 +58,7 @@ Default Options
 	},
 }
 ```
+
+## Credits 👤
+
+Status line and theme design adapted from [poimandres.nvim](https://github.com/olivercederborg/poimandres.nvim) and [yugen.nvim](https://github.com/bettervim/yugen.nvim).
