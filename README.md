@@ -27,3 +27,18 @@ Plug
 ```lua
 "drgfunk/streamline.nvim" , { 'branch': 'main' }, { 'tag': '1.0.2' }
 ```
+
+Default Options
+```
+sections = {
+	left = {
+		"mode",
+		"git_branch",
+		"filename",
+	},
+	middle = {},
+	right = {
+		"filetype",
+	},
+}
+```
