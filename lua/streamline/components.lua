@@ -3,7 +3,7 @@ local M = {}
 function M.mode()
 	local mode = vim.api.nvim_get_mode().mode
 	local mode_name = require("streamline.utils").get_mode_name(mode)
-	return "%#StreamlineMode#" .. " " .. string.upper(mode_name) .. " "
+	return "%#StreamlineMode#" .. " " .. string.upper(mode_name)
 end
 
 function M.git_branch()
