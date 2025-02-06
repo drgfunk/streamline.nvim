@@ -1,6 +1,9 @@
 # streamline.nvim
 A lightweight statusline plugin for Neovim focused on essential information with zero dependencies.
 
+<img width="1271" alt="Screenshot 2025-02-06 at 16 36 54" src="https://github.com/user-attachments/assets/7d8e43f0-dcee-44d8-ab2f-ddfb47f20d07" />
+
+
 ## Features
 
 - File information (name, type)
