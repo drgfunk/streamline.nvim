@@ -30,7 +30,7 @@ function M.setup(opts)
 	require("streamline.highlights").setup()
 
 	M.options = vim.tbl_deep_extend("force", {}, M.defaults, opts or {})
-	-- Initialize your statusline here
+
 	-- Set up autocommand for updates
 	vim.api.nvim_create_autocmd({ "ModeChanged", "WinEnter", "BufEnter", "WinLeave", "BufLeave" }, {
 		pattern = "*",
