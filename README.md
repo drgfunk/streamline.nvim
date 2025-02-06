@@ -5,8 +5,7 @@ Lazy
 ```lua
 {
     "drgfunk/streamline.nvim", 
-	branch = "main",
-	tag = "1.0.2",
+    branch = "main",
     opts = {}
 }
 ```
@@ -15,8 +14,7 @@ Packer
 ```lua
 {
     "drgfunk/streamline.nvim", 
-	branch = "main",
-	tag = "1.0.2",
+    branch = "main",
     config = function()
         require("streamline").setup() 
     end
@@ -25,26 +23,26 @@ Packer
 
 Plug
 ```lua
-"drgfunk/streamline.nvim" , { 'branch': 'main' }, { 'tag': '1.0.2' }
+{ "drgfunk/streamline.nvim" , { 'branch': 'main' } }
 ```
 
 Default Options
 ```
 {
-    sections = {
-	left = {
-		"mode",
-		"git_branch",
-		"filename",
+	sections = {
+		left = {
+			"mode",
+			"git_branch",
+			"filename",
+		},
+		middle = {},
+		right = {
+			"filetype",
+		},
 	},
-	middle = {},
-	right = {
-		"filetype",
+	excluded_filetypes = {
+		"TelescopePrompt",
+		"snacks_picker_input",
 	},
-    },
-    excluded_filetypes = {
-	"TelescopePrompt",
-	"snacks_picker_input",
-    },
 }
 ```
