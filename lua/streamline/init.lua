@@ -6,9 +6,15 @@ M.defaults = {
 	theme = "default",
 	icons = true,
 	sections = {
-		left = {},
+		left = {
+			"mode",
+			"git_branch",
+			"filename",
+		},
 		middle = {},
-		right = {},
+		right = {
+			"filetype",
+		},
 	},
 }
 
@@ -33,28 +39,38 @@ function M.setup(opts)
 	vim.opt.statusline = "%!v:lua.require'streamline'.render()"
 end
 
-function M.render()
+local function process_section(components)
 	local result = {}
 
-	-- Process left section components
-	for _, component in ipairs(M.options.sections.left) do
-		if type(component) == "function" then
+	if components == nil then
+		return ""
+	end
+
+	for _, component in ipairs(components) do
+		if type(component) == "string" then
+			local ok, comp = pcall(require, "streamline.components")
+			if ok and comp[component] then
+				table.insert(result, comp[component]())
+			end
+		elseif type(component) == "function" then
 			table.insert(result, component())
 		end
 	end
+	return table.concat(result, " ")
+end
 
-	table.insert(result, "%=")
+function M.render()
+	local expander = "%="
 
-	for _, component in ipairs(M.options.sections.right) do
-		if type(component) == "function" then
-			table.insert(result, component())
-		end
-	end
+	local sections = {
+		process_section(M.options.sections.left),
+		expander,
+		process_section(M.options.sections.middle),
+		expander,
+		process_section(M.options.sections.right),
+	}
 
-	-- Similar for middle and right sections
-	-- Then join everything together
-	-- vim.opt.statusline = table.concat(result, " ")
-	return table.concat(result, "")
+	return table.concat(sections, "")
 end
 
 return M
