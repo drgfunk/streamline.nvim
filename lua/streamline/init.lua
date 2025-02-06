@@ -61,6 +61,18 @@ end
 
 function M.render()
 	local expander = "%="
+	local ft = vim.bo.filetype
+
+	-- create table of excluded filetypes
+	local excluded_filetypes = {
+		"TelescopePrompt",
+		"snacks_picker_input",
+	}
+
+	-- hide statusline if filetype is in excluded_filetypes
+	if vim.tbl_contains(excluded_filetypes, ft) then
+		return ""
+	end
 
 	local sections = {
 		process_section(M.options.sections.left),
