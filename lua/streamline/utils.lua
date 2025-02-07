@@ -118,10 +118,10 @@ function M.get_filetype_icon()
 
 	-- get background color from StreamlineFiletype hl group as hex color
 	local hl = vim.api.nvim_get_hl_by_name("StreamlineFiletype", true)
-	local bg_color = string.format("%x", hl.background)
+	-- local bg_color = string.format("%x", hl.background)
 
 	if color ~= nil then
-		add_background_to_highlight(color, "#" .. bg_color)
+		add_background_to_highlight(color, hl.background)
 	end
 
 	if icon == nil then
