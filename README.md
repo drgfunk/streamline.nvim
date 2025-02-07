@@ -10,7 +10,7 @@ A lightweight statusline plugin for Neovim focused on essential information with
 - Vim mode indicator
 - indentation (tabs vs spaces)
 - Customizable highlights
-- Supports multiple icon providers (mini.icons or nvim-web-devicons)
+- Supports multiple icon providers ([mini.icons](https://github.com/echasnovski/mini.icons) or [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons))
 
 ## Installation 
 
