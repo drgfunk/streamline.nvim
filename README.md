@@ -45,6 +45,8 @@ Plug
 { "drgfunk/streamline.nvim" , { 'branch': 'main' } }
 ```
 
+## Configuration
+
 Default Options
 ```lua
 {
