@@ -9,6 +9,7 @@ A lightweight statusline plugin for Neovim focused on essential information with
 - File information (name, type)
 - Git branch
 - Vim mode indicator
+- indentation (tabs vs spaces)
 - Customizable highlights
 
 ## Installation 
@@ -49,6 +50,7 @@ Default Options
 		},
 		middle = {},
 		right = {
+			"indent",
 			"filetype",
 		},
 	},
