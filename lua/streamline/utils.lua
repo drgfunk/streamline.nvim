@@ -63,31 +63,72 @@ function M.get_branch_name(max_length)
 	return ""
 end
 
+local function add_background_to_highlight(group_name, bg_color)
+	local existing_hl = vim.api.nvim_get_hl_by_name(group_name, true) -- Get existing highlight
+
+	if existing_hl then -- Check if the highlight group exists
+		local new_hl = vim.deepcopy(existing_hl) -- Create a copy to avoid modifying the original
+		new_hl.bg = bg_color -- Set the background color
+
+		vim.api.nvim_set_hl(0, group_name, new_hl) -- Update the highlight
+	else
+		print("Highlight group '" .. group_name .. "' not found.")
+	end
+end
+
+function get_icon_provider()
+	-- Check for mini.icons first
+	local mini_icons_ok, mini_icons = pcall(require, "mini.icons")
+	if mini_icons_ok then
+		return {
+			get = function(filename, extension)
+				local icon, color = mini_icons.get("extension", extension)
+				return icon, color
+			end,
+		}
+	end
+
+	local web_devicons_ok, web_devicons = pcall(require, "nvim-web-devicons")
+	if web_devicons_ok then
+		return {
+			get = function(filename, extension)
+				local icon, color = web_devicons.get_icon(filename, extension) -- Extract icon, discard color here
+				return icon, color
+			end,
+		}
+	end
+end
+
 function M.get_icon()
 	local filename = vim.fn.expand("%:t")
 	local extension = vim.fn.expand("%:e")
 
-	local icon, color = require("nvim-web-devicons").get_icon_color(filename, extension)
+	local provider = get_icon_provider()
+
+	if provider == nil then
+		return nil, nil
+	end
+
+	local icon, color = provider.get(filename, extension)
 	return icon, color
 end
 
 function M.get_filetype_icon()
 	local icon, color = M.get_icon()
 
-	-- get background color from StreamlineMode hl group as hex color
-	-- make a copy of the StreamlineMode hl group
+	-- get background color from StreamlineFiletype hl group as hex color
 	local hl = vim.api.nvim_get_hl_by_name("StreamlineFiletype", true)
-
-	-- apply hl to the icon string
 	local bg_color = string.format("%x", hl.background)
+
+	if color ~= nil then
+		add_background_to_highlight(color, "#" .. bg_color)
+	end
 
 	if icon == nil then
 		return ""
 	else
-		vim.cmd([[hi StatusLineFTIconColor guifg=]] .. color .. [[ guibg=#]] .. bg_color)
-		return "%#StatusLineFTIconColor# " .. icon .. " "
+		return " %#" .. color .. "#" .. icon .. " "
 	end
 end
 
--- Add other utility functions
 return M

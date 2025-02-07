@@ -1,5 +1,5 @@
 # streamline.nvim
-A lightweight statusline plugin for Neovim focused on essential information with zero dependencies.
+A lightweight statusline plugin for Neovim focused on essential information with optional dependencies.
 
 <img width="1271" alt="Screenshot 2025-02-06 at 16 36 54" src="https://github.com/user-attachments/assets/7d8e43f0-dcee-44d8-ab2f-ddfb47f20d07" />
 
@@ -18,6 +18,12 @@ Lazy
 ```lua
 {
     "drgfunk/streamline.nvim", 
+
+    -- optional icon provider dependency
+    -- either echasnovski/mini.icons or nvim-tree/nvim-web-devicons
+    -- mini.icons is preferred if more than one icon provider is loaded
+	dependencies = { { "echasnovski/mini.icons", opts = {} } },
+
     branch = "main",
     opts = {}
 }
