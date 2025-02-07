@@ -68,6 +68,15 @@ Default Options
 }
 ```
 
+## Colors
+| Highlight Group | Description |
+| **StreamlineMode** | Vim file mode component |
+| **StreamlineGitBranch** | Git branch component and icon |
+| **StreamlineFilename** | File name |
+| **StreamlineModified** | Icon when file is modified |
+| **StreamlineFiletype** | File type, icon color determined by icon provider |
+| **StreamlineIndent** | Indentation component |
+
 ## Credits
 
 Status line and theme design adapted from [poimandres.nvim](https://github.com/olivercederborg/poimandres.nvim) and [yugen.nvim](https://github.com/bettervim/yugen.nvim).
