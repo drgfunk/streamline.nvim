@@ -70,6 +70,7 @@ Default Options
 
 ## Colors
 | Highlight Group | Description |
+| --- | --- |
 | **StreamlineMode** | Vim file mode component |
 | **StreamlineGitBranch** | Git branch component and icon |
 | **StreamlineFilename** | File name |
