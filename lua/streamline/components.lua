@@ -3,15 +3,16 @@ local M = {}
 function M.mode()
 	local mode = vim.api.nvim_get_mode().mode
 	local mode_name = require("streamline.utils").get_mode_name(mode)
-	return "%#StreamlineMode#" .. " " .. string.upper(mode_name)
+	return table.concat({ "%#StreamlineMode#", " ", string.upper(mode_name) })
 end
 
 function M.git_branch()
 	local branch = require("streamline.utils").get_branch_name(20)
-	return "%#StreamlineGitBranch#" .. "  " .. branch .. " "
+	return table.concat({ "%#StreamlineGitBranch#", "  ", branch, " " })
 end
 
 function M.filename()
+	local result = {}
 	local current_buf = vim.api.nvim_get_current_buf()
 	local current_name = vim.fn.bufname(current_buf)
 
@@ -34,18 +35,24 @@ function M.filename()
 		end
 	end
 
+	table.insert(result, "%#StreamlineFilename#")
+	table.insert(result, " ")
+	table.insert(result, base_name)
+
 	if vim.bo.modified then
-		base_name = base_name .. "%#StreamlineModified# 󰧞"
+		table.insert(result, "%#StreamlineModified# 󰧞")
 	end
 
-	return "%#StreamlineFilename#" .. "  " .. base_name .. "  "
+	table.insert(result, "  ")
+
+	return table.concat(result)
 end
 
 function M.filetype()
 	local icon = require("streamline.utils").get_filetype_icon()
 	local ft = vim.bo.filetype
 
-	return "%#StreamlineFiletype#" .. icon .. " %#StreamlineFiletype#" .. ft .. " "
+	return table.concat({ "%#StreamlineFiletype#", icon, " %#StreamlineFiletype#", ft, " " })
 end
 
 return M
