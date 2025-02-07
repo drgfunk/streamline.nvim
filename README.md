@@ -46,7 +46,7 @@ Plug
 ```
 
 Default Options
-```
+```lua
 {
     sections = {
         left = {
