@@ -45,19 +45,19 @@ Default Options
         left = {
             "mode",
             "git_branch",
-			"filename",
-		},
-		middle = {},
-		right = {
-			"indent",
-			"filetype",
-		},
-	},
-	-- The status line will be hidden for these buffers
-	excluded_filetypes = {
-		"TelescopePrompt",
-		"snacks_picker_input",
-	},
+            "filename",
+        },
+        middle = {},
+        right = {
+            "indent",
+            "filetype",
+        },
+    },
+    -- The status line will be hidden for these buffers
+    excluded_filetypes = {
+        "TelescopePrompt",
+        "snacks_picker_input",
+    },
 }
 ```
 
