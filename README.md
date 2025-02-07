@@ -10,6 +10,7 @@ A lightweight statusline plugin for Neovim focused on essential information with
 - Vim mode indicator
 - indentation (tabs vs spaces)
 - Customizable highlights
+- Supports multiple icon providers (mini.icons or nvim-web-devicons)
 
 ## Installation 
 
@@ -21,7 +22,7 @@ Lazy
     -- optional icon provider dependency
     -- either echasnovski/mini.icons or nvim-tree/nvim-web-devicons
     -- mini.icons is preferred if more than one icon provider is loaded
-	dependencies = { { "echasnovski/mini.icons", opts = {} } },
+    dependencies = { { "echasnovski/mini.icons", opts = {} } },
 
     branch = "main",
     opts = {}
