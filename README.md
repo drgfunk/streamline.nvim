@@ -41,10 +41,10 @@ Plug
 Default Options
 ```
 {
-	sections = {
-		left = {
-			"mode",
-			"git_branch",
+    sections = {
+        left = {
+            "mode",
+            "git_branch",
 			"filename",
 		},
 		middle = {},
@@ -52,6 +52,7 @@ Default Options
 			"filetype",
 		},
 	},
+	-- The status line will be hidden for these buffers
 	excluded_filetypes = {
 		"TelescopePrompt",
 		"snacks_picker_input",
