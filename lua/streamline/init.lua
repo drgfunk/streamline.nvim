@@ -13,6 +13,7 @@ M.defaults = {
 		},
 		middle = {},
 		right = {
+			"indent",
 			"filetype",
 		},
 	},

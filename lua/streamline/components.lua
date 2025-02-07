@@ -55,4 +55,9 @@ function M.filetype()
 	return table.concat({ "%#StreamlineFiletype#", icon, " %#StreamlineFiletype#", ft, " " })
 end
 
+function M.indent()
+	local indent = vim.bo.expandtab and "󱁐 Spaces" or "󰌒 Tabs"
+	return table.concat({ "%#StreamlineIndent#", indent, "  " })
+end
+
 return M
