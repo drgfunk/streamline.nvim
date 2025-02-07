@@ -81,7 +81,7 @@ function get_icon_provider()
 	local mini_icons_ok, mini_icons = pcall(require, "mini.icons")
 	if mini_icons_ok then
 		return {
-			get = function(filename, extension)
+			get = function(_, extension)
 				local icon, color = mini_icons.get("extension", extension)
 				return icon, color
 			end,
