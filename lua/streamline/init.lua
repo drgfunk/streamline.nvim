@@ -95,6 +95,7 @@ function M.streamline_augroup()
 		"BufLeave",
 		"BufReadPost",
 		"BufWritePost",
+		"BufModifiedSet",
 	}, {
 		pattern = "*",
 		callback = function()
