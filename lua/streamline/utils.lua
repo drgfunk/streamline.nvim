@@ -1,3 +1,4 @@
+-- luacheck: globals vim
 local M = {}
 
 function M.get_mode_name(mode)
@@ -70,19 +71,21 @@ local function add_background_to_highlight(group_name, bg_color)
 		local new_hl = vim.deepcopy(existing_hl) -- Create a copy to avoid modifying the original
 		new_hl.bg = bg_color -- Set the background color
 
-		vim.api.nvim_set_hl(0, group_name, new_hl) -- Update the highlight
+		vim.api.nvim_set_hl(0, "StreamlineFiletypeIcon", new_hl) -- Update the highlight
 	else
 		print("Highlight group '" .. group_name .. "' not found.")
 	end
 end
 
-function get_icon_provider()
+local function get_icon_provider()
 	-- Check for mini.icons first
 	local mini_icons_ok, mini_icons = pcall(require, "mini.icons")
 	if mini_icons_ok then
 		return {
-			get = function(_, extension)
-				local icon, color = mini_icons.get("extension", extension)
+			get = function(ft, filename)
+				local category = ft ~= "" and "filetype" or "file"
+				local input = ft ~= "" and ft or filename
+				local icon, color = mini_icons.get(category, input)
 				return icon, color
 			end,
 		}
@@ -91,7 +94,7 @@ function get_icon_provider()
 	local web_devicons_ok, web_devicons = pcall(require, "nvim-web-devicons")
 	if web_devicons_ok then
 		return {
-			get = function(filename, extension)
+			get = function(ft, filename, extension)
 				local icon, color = web_devicons.get_icon(filename, extension) -- Extract icon, discard color here
 				return icon, color
 			end,
@@ -102,6 +105,7 @@ end
 function M.get_icon()
 	local filename = vim.fn.expand("%:t")
 	local extension = vim.fn.expand("%:e")
+	local ft = vim.bo.filetype
 
 	local provider = get_icon_provider()
 
@@ -109,16 +113,14 @@ function M.get_icon()
 		return nil, nil
 	end
 
-	local icon, color = provider.get(filename, extension)
+	local icon, color = provider.get(ft, filename, extension)
 	return icon, color
 end
 
 function M.get_filetype_icon()
 	local icon, color = M.get_icon()
 
-	-- get background color from StreamlineFiletype hl group as hex color
 	local hl = vim.api.nvim_get_hl_by_name("StreamlineFiletype", true)
-	-- local bg_color = string.format("%x", hl.background)
 
 	if color ~= nil then
 		add_background_to_highlight(color, hl.background)
@@ -127,7 +129,7 @@ function M.get_filetype_icon()
 	if icon == nil then
 		return ""
 	else
-		return " %#" .. color .. "#" .. icon .. " "
+		return " %#StreamlineFiletypeIcon#" .. icon .. " "
 	end
 end
 
