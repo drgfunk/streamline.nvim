@@ -8,7 +8,7 @@ A lightweight statusline plugin for Neovim focused on essential information with
 - File information (name, type)
 - Git branch
 - Vim mode indicator
-- indentation (tabs vs spaces)
+- indentation (tabs or spaces)
 - Customizable highlights
 - Supports multiple icon providers ([mini.icons](https://github.com/echasnovski/mini.icons) or [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons))
 
