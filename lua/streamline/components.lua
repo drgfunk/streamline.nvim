@@ -1,11 +1,11 @@
 -- luacheck: globals vim
-
 local M = {}
 
 function M.mode()
 	local mode = vim.api.nvim_get_mode().mode
 	local mode_name = require("streamline.utils").get_mode_name(mode)
-	return table.concat({ "%#StreamlineMode#", " ", string.upper(mode_name) })
+
+	return table.concat({ "%#StreamlineMode#", " ", string.upper(mode_name), " " })
 end
 
 function M.git_branch()
@@ -38,7 +38,7 @@ function M.filename()
 	end
 
 	table.insert(result, "%#StreamlineFilename#")
-	table.insert(result, " ")
+	table.insert(result, "  ")
 	table.insert(result, base_name)
 
 	if vim.bo.modified then
@@ -59,7 +59,7 @@ end
 
 function M.indent()
 	local indent = vim.bo.expandtab and "󱁐 Spaces" or "󰌒 Tabs"
-	return table.concat({ "%#StreamlineIndent#", indent, "  " })
+	return table.concat({ "%#StreamlineIndent#  ", indent, "  " })
 end
 
 return M
