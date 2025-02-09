@@ -1,3 +1,4 @@
+-- luacheck: globals vim
 local M = {}
 
 function M.setup()
@@ -6,6 +7,7 @@ function M.setup()
 	local normal_hl = vim.api.nvim_get_hl(0, { name = "Normal" })
 
 	-- Default colors
+	vim.api.nvim_set_hl(0, "Streamline", { link = "Normal" })
 	vim.api.nvim_set_hl(0, "StreamlineMode", { link = "StatusLine" })
 	vim.api.nvim_set_hl(0, "StreamlineGitBranch", { link = "StatusLineNC" })
 	vim.api.nvim_set_hl(0, "StreamlineIndent", { link = "Normal" })

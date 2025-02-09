@@ -60,8 +60,11 @@ local function process_section(components)
 		elseif type(component) == "function" then
 			table.insert(result, component())
 		end
+
+		-- Reset highlight group after each component to avoid carry-over
+		table.insert(result, "%#Streamline#")
 	end
-	return table.concat(result, " ")
+	return table.concat(result, "")
 end
 
 M.render = vim.schedule_wrap(function()
