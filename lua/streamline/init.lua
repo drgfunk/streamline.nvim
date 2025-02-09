@@ -1,10 +1,10 @@
+-- luacheck: globals vim
+
 local M = {}
+local uv = vim.loop
 
 -- Default configuration
 M.defaults = {
-	-- Add your default options here
-	theme = "default",
-	icons = true,
 	sections = {
 		left = {
 			"mode",
@@ -23,7 +23,6 @@ M.defaults = {
 	},
 }
 
--- Store the user's configuration
 M.options = {}
 
 -- Main setup function
@@ -32,16 +31,17 @@ function M.setup(opts)
 
 	M.options = vim.tbl_deep_extend("force", {}, M.defaults, opts or {})
 
-	-- Set up autocommand for updates
-	vim.api.nvim_create_autocmd({ "ModeChanged", "WinEnter", "BufEnter", "WinLeave", "BufLeave" }, {
-		pattern = "*",
-		callback = function()
-			M.render()
-		end,
-	})
-
 	-- Initial render
-	vim.opt.statusline = "%!v:lua.require'streamline'.render()"
+	M.render()
+end
+
+local async_render
+async_render = uv.new_async(vim.schedule_wrap(function()
+	M.render()
+end))
+
+function M.load_streamline()
+	async_render:send()
 end
 
 local function process_section(components)
@@ -64,7 +64,7 @@ local function process_section(components)
 	return table.concat(result, " ")
 end
 
-function M.render()
+M.render = vim.schedule_wrap(function()
 	local expander = "%="
 	local ft = vim.bo.filetype
 
@@ -81,7 +81,26 @@ function M.render()
 		process_section(M.options.sections.right),
 	}
 
-	return table.concat(sections, "")
+	vim.opt.statusline = table.concat(sections, "")
+end)
+
+function M.streamline_augroup()
+	-- Set up autocommand for updates
+	vim.api.nvim_create_autocmd({
+		"ColorScheme",
+		"ModeChanged",
+		"WinEnter",
+		"BufEnter",
+		"WinLeave",
+		"BufLeave",
+		"BufReadPost",
+		"BufWritePost",
+	}, {
+		pattern = "*",
+		callback = function()
+			M.load_streamline()
+		end,
+	})
 end
 
 return M
