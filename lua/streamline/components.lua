@@ -14,7 +14,6 @@ function M.git_branch()
 end
 
 function M.filename()
-	local result = {}
 	local current_buf = vim.api.nvim_get_current_buf()
 	local current_name = vim.fn.bufname(current_buf)
 
@@ -37,17 +36,13 @@ function M.filename()
 		end
 	end
 
-	table.insert(result, "%#StreamlineFilename#")
-	table.insert(result, "  ")
-	table.insert(result, base_name)
-
-	if vim.bo.modified then
-		table.insert(result, "%#StreamlineModified# 󰧞")
-	end
-
-	table.insert(result, "  ")
-
-	return table.concat(result)
+	return table.concat({
+		"%#StreamlineFilename#",
+		"  ",
+		base_name,
+		vim.bo.modified and "%#StreamlineModified# 󰧞" or "",
+		"  ",
+	})
 end
 
 function M.filetype()
@@ -58,8 +53,14 @@ function M.filetype()
 end
 
 function M.indent()
-	local indent = vim.bo.expandtab and "󱁐 Spaces" or "󰌒 Tabs"
-	return table.concat({ "%#StreamlineIndent#  ", indent, "  " })
+	local tabs = "󰌒 Tabs"
+	local spaces = "󱁐 Spaces"
+
+	return table.concat({
+		"%#StreamlineIndent#  ",
+		vim.bo.expandtab and spaces or tabs,
+		"  ",
+	})
 end
 
 return M
