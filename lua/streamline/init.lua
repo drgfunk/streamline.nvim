@@ -5,6 +5,7 @@ local uv = vim.loop
 
 -- Default configuration
 M.defaults = {
+	icon_provider = "mini.icons",
 	sections = {
 		left = {
 			"mode",

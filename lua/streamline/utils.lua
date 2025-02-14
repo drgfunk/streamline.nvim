@@ -78,27 +78,33 @@ local function add_background_to_highlight(group_name, bg_color)
 end
 
 local function get_icon_provider()
-	-- Check for mini.icons first
-	local mini_icons_ok, mini_icons = pcall(require, "mini.icons")
-	if mini_icons_ok then
-		return {
-			get = function(ft, filename)
-				local category = ft ~= "" and "filetype" or "file"
-				local input = ft ~= "" and ft or filename
-				local icon, color = mini_icons.get(category, input)
-				return icon, color
-			end,
-		}
+	local options = require("streamline").options
+	-- if options icon_provider is set to mini.icons, use mini.icons
+	if options.icon_provider == "mini.icons" then
+		local mini_icons_ok, mini_icons = pcall(require, "mini.icons")
+		if mini_icons_ok then
+			return {
+				get = function(ft, filename)
+					local category = ft ~= "" and "filetype" or "file"
+					local input = ft ~= "" and ft or filename
+					local icon, color = mini_icons.get(category, input)
+					return icon, color
+				end,
+			}
+		end
 	end
 
-	local web_devicons_ok, web_devicons = pcall(require, "nvim-web-devicons")
-	if web_devicons_ok then
-		return {
-			get = function(ft, filename, extension)
-				local icon, color = web_devicons.get_icon(filename, extension) -- Extract icon, discard color here
-				return icon, color
-			end,
-		}
+	-- if options icon_provider is set to nvim-web-devicons, use nvim-web-devicons
+	if options.icon_provider == "nvim-web-devicons" then
+		local web_devicons_ok, web_devicons = pcall(require, "nvim-web-devicons")
+		if web_devicons_ok then
+			return {
+				get = function(ft, filename, extension)
+					local icon, color = web_devicons.get_icon(filename, extension) -- Extract icon, discard color here
+					return icon, color
+				end,
+			}
+		end
 	end
 end
 
