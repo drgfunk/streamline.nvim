@@ -21,6 +21,8 @@ M.defaults = {
   excluded_filetypes = {
     "TelescopePrompt",
     "snacks_picker_input",
+    "snacks_picker_list",
+    "help",
   },
 }
 

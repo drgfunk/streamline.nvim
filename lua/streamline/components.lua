@@ -63,4 +63,22 @@ function M.indent()
   })
 end
 
+local is_requesting = false
+
+function M.set_compainion_state(state)
+  is_requesting = state
+end
+
+function M.companion_status()
+  if not is_requesting then
+    return ""
+  end
+
+  return table.concat({
+    "%#StreamlineCompanion#",
+    "  󰚩 ", -- You can change this icon to match your theme
+    " ",
+  })
+end
+
 return M
