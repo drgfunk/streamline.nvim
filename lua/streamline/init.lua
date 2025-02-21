@@ -21,6 +21,8 @@ M.defaults = {
   excluded_filetypes = {
     "TelescopePrompt",
     "snacks_picker_input",
+    "snacks_picker_list",
+    "help",
   },
 }
 
@@ -85,7 +87,13 @@ M.render = vim.schedule_wrap(function()
     process_section(M.options.sections.right),
   }
 
-  vim.opt.statusline = table.concat(sections, "")
+  local statusline = table.concat(sections, "")
+
+  if statusline == "" then
+    return
+  end
+
+  vim.api.nvim_set_option_value("statusline", statusline, {})
 end)
 
 function M.streamline_augroup()
