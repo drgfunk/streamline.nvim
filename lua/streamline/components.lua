@@ -21,6 +21,11 @@ function M.filename()
     return "[No Name]"
   end
 
+  -- Check if buffer is a scratch buffer
+  if string.match(string.lower(current_name), "nvim/scratch") then
+    current_name = "Scratch"
+  end
+
   local base_name = vim.fn.fnamemodify(current_name, ":t")
 
   -- Check other buffers for same filename
@@ -34,6 +39,10 @@ function M.filename()
         base_name = vim.fn.fnamemodify(current_name, ":h:t") .. "/" .. base_name
       end
     end
+  end
+
+  if #base_name > 20 then
+    base_name = "..." .. base_name:sub(-20)
   end
 
   return table.concat({
