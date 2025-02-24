@@ -31,19 +31,9 @@ M.options = {}
 -- Main setup function
 function M.setup(opts)
   require("streamline.highlights").setup()
+  require("streamline.replace").setup()
 
   M.options = vim.tbl_deep_extend("force", {}, M.defaults, opts or {})
-
-  vim.api.nvim_create_user_command("StreamlineReplace", function()
-    Snacks.input.input({
-      prompt = "Replace: ",
-    }, function(result)
-      require("streamline.utils").replace_word_in_buffer(result)
-    end)
-  end, {})
-
-  -- create key map for StreamlineReplace
-  vim.api.nvim_set_keymap("n", "<leader>rr", ":StreamlineReplace<CR>", { noremap = true, silent = true })
 
   -- Initial render
   M.render()
@@ -109,6 +99,7 @@ end)
 
 function M.streamline_augroup()
   -- Set up autocommand for updates
+  local group = vim.api.nvim_create_augroup("streamline", { clear = true })
   vim.api.nvim_create_autocmd({
     "ColorScheme",
     "ModeChanged",
@@ -120,6 +111,7 @@ function M.streamline_augroup()
     "BufWritePost",
     "BufModifiedSet",
   }, {
+    group = group,
     pattern = "*",
     callback = function()
       M.load_streamline()
