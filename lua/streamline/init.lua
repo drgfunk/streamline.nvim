@@ -34,6 +34,17 @@ function M.setup(opts)
 
   M.options = vim.tbl_deep_extend("force", {}, M.defaults, opts or {})
 
+  vim.api.nvim_create_user_command("StreamlineReplace", function()
+    Snacks.input.input({
+      prompt = "Replace: ",
+    }, function(result)
+      require("streamline.utils").replace_word_in_buffer(result)
+    end)
+  end, {})
+
+  -- create key map for StreamlineReplace
+  vim.api.nvim_set_keymap("n", "<leader>rr", ":StreamlineReplace<CR>", { noremap = true, silent = true })
+
   -- Initial render
   M.render()
 end
