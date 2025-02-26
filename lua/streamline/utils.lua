@@ -139,4 +139,9 @@ function M.get_filetype_icon()
   end
 end
 
+-- Helper function to create styled components
+function M.styled(highlight_group, content)
+  return table.concat({ "%#" .. highlight_group .. "#", content, " " })
+end
+
 return M
