@@ -1,16 +1,17 @@
 -- luacheck: globals vim
 local M = {}
+local utils = require("streamline.utils")
 
 function M.mode()
   local mode = vim.api.nvim_get_mode().mode
-  local mode_name = require("streamline.utils").get_mode_name(mode)
+  local mode_name = utils.get_mode_name(mode)
 
-  return table.concat({ "%#StreamlineMode#", " ", string.upper(mode_name), " " })
+  return utils.styled("StreamlineMode", " " .. string.upper(mode_name))
 end
 
 function M.git_branch()
-  local branch = require("streamline.utils").get_branch_name(20)
-  return table.concat({ "%#StreamlineGitBranch#", "  ", branch, " " })
+  local branch = utils.get_branch_name(20)
+  return utils.styled("StreamlineGitBranch", "  " .. branch)
 end
 
 function M.filename()
@@ -18,7 +19,8 @@ function M.filename()
   local current_name = vim.fn.bufname(current_buf)
 
   if current_name == "" then
-    return "[No Name]"
+    -- return "[No Name]"
+    return utils.styled("StreamlineFilename", "[No Name]")
   end
 
   -- Check if buffer is a scratch buffer
@@ -27,67 +29,76 @@ function M.filename()
   end
 
   local base_name = vim.fn.fnamemodify(current_name, ":t")
+  local needs_disambiguation = false
 
   -- Check other buffers for same filename
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     if buf ~= current_buf and vim.fn.buflisted(buf) == 1 then
-      local buf_name = vim.fn.bufname(buf)
-      local other_base = vim.fn.fnamemodify(buf_name, ":t")
+      -- local buf_name = vim.fn.bufname(buf)
+      local other_base = vim.fn.fnamemodify(vim.fn.bufname(buf), ":t")
 
       if base_name == other_base then
-        -- Add parent directory
-        base_name = vim.fn.fnamemodify(current_name, ":h:t") .. "/" .. base_name
+        needs_disambiguation = true
+        break
       end
     end
+  end
+
+  if needs_disambiguation then
+    -- Add parent directory
+    base_name = vim.fn.fnamemodify(current_name, ":h:t") .. "/" .. base_name
   end
 
   if #base_name > 20 then
     base_name = "..." .. base_name:sub(-20)
   end
 
+  local modified_indicator = vim.bo.modified and "%#StreamlineModified# 󰧞" or ""
+
   return table.concat({
     "%#StreamlineFilename#",
     "  ",
     base_name,
-    vim.bo.modified and "%#StreamlineModified# 󰧞" or "",
+    modified_indicator,
     "  ",
   })
 end
 
 function M.filetype()
-  local icon = require("streamline.utils").get_filetype_icon()
+  local icon = utils.get_filetype_icon()
   local ft = vim.bo.filetype
 
-  return table.concat({ "%#StreamlineFiletype#", icon, " %#StreamlineFiletype#", ft, " " })
+  if ft == "" then
+    ft = "plain"
+  end
+
+  return utils.styled("StreamlineFiletype", icon) .. utils.styled("StreamlineFiletype", ft)
+  -- return table.concat({ "%#StreamlineFiletype#", icon, " %#StreamlineFiletype#", ft, " " })
 end
 
 function M.indent()
-  local tabs = "󰌒 Tabs"
-  local spaces = "󱁐 Spaces"
+  local tabs = "󰌒 Tabs "
+  local spaces = "󱁐 Spaces "
 
-  return table.concat({
-    "%#StreamlineIndent#  ",
-    vim.bo.expandtab and spaces or tabs,
-    "  ",
-  })
+  return utils.styled("StreamlineIndent", vim.bo.expandtab and spaces or tabs)
 end
 
-local is_requesting = false
-
-function M.set_compainion_state(state)
-  is_requesting = state
-end
-
-function M.companion_status()
-  if not is_requesting then
-    return ""
-  end
-
-  return table.concat({
-    "%#StreamlineCompanion#",
-    "  󰚩 ", -- You can change this icon to match your theme
-    " ",
-  })
-end
+-- local is_requesting = false
+--
+-- function M.set_compainion_state(state)
+--   is_requesting = state
+-- end
+--
+-- function M.companion_status()
+--   if not is_requesting then
+--     return ""
+--   end
+--
+--   return table.concat({
+--     "%#StreamlineCompanion#",
+--     "  󰚩 ", -- You can change this icon to match your theme
+--     " ",
+--   })
+-- end
 
 return M

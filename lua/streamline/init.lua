@@ -31,6 +31,7 @@ M.options = {}
 -- Main setup function
 function M.setup(opts)
   require("streamline.highlights").setup()
+  require("streamline.replace").setup()
 
   M.options = vim.tbl_deep_extend("force", {}, M.defaults, opts or {})
 
@@ -98,6 +99,7 @@ end)
 
 function M.streamline_augroup()
   -- Set up autocommand for updates
+  local group = vim.api.nvim_create_augroup("streamline", { clear = true })
   vim.api.nvim_create_autocmd({
     "ColorScheme",
     "ModeChanged",
@@ -109,6 +111,7 @@ function M.streamline_augroup()
     "BufWritePost",
     "BufModifiedSet",
   }, {
+    group = group,
     pattern = "*",
     callback = function()
       M.load_streamline()
