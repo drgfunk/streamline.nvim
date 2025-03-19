@@ -11,6 +11,11 @@ end
 
 function M.git_branch()
   local branch = utils.get_branch_name(20)
+
+  if branch == "" then
+    return ""
+  end
+
   return utils.styled("StreamlineGitBranch", "  " .. branch)
 end
 
@@ -73,7 +78,6 @@ function M.filetype()
   end
 
   return utils.styled("StreamlineFiletype", icon) .. utils.styled("StreamlineFiletype", ft)
-  -- return table.concat({ "%#StreamlineFiletype#", icon, " %#StreamlineFiletype#", ft, " " })
 end
 
 function M.indent()
