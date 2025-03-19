@@ -12,7 +12,9 @@ M.defaults = {
       "git_branch",
       "filename",
     },
-    middle = {},
+    middle = {
+      "macro",
+    },
     right = {
       "indent",
       "filetype",
@@ -72,7 +74,6 @@ local function process_section(components)
 end
 
 M.render = vim.schedule_wrap(function()
-  local expander = "%="
   local ft = vim.bo.filetype
 
   -- hide statusline if filetype is in excluded_filetypes
@@ -80,15 +81,30 @@ M.render = vim.schedule_wrap(function()
     return ""
   end
 
-  local sections = {
-    process_section(M.options.sections.left),
-    expander,
-    process_section(M.options.sections.middle),
-    expander,
-    process_section(M.options.sections.right),
-  }
+  local left = process_section(M.options.sections.left)
+  local middle = process_section(M.options.sections.middle)
+  local right = process_section(M.options.sections.right)
 
-  local statusline = table.concat(sections, "")
+  -- Calculate the visual width of strings with escape sequences
+  local function visual_width(str)
+    -- Remove highlighting commands and other non-visible characters
+    local cleaned = str:gsub("%%#[^#]+#", ""):gsub("%%{.-%}", ""):gsub("%%[xXbBuUdDoctTfF]", " ")
+    return vim.fn.strdisplaywidth(cleaned)
+  end
+
+  local middle_width = visual_width(middle)
+
+  -- Create a centered statusline using manual padding if needed
+  local statusline = string.format(
+    "%%<%s%%=%%{repeat(' ', (&columns / 2 - %d / 2 - %d))}%s%%{repeat(' ', (&columns / 2 - %d / 2 - %d))}%%=%s",
+    left,
+    middle_width,
+    visual_width(left), -- Left padding calculation
+    middle,
+    middle_width,
+    visual_width(right), -- Right padding calculation
+    right
+  )
 
   if statusline == "" then
     return
@@ -110,6 +126,8 @@ function M.streamline_augroup()
     "BufReadPost",
     "BufWritePost",
     "BufModifiedSet",
+    "RecordingEnter",
+    "RecordingLeave",
   }, {
     group = group,
     pattern = "*",

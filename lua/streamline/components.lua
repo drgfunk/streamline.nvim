@@ -87,6 +87,18 @@ function M.indent()
   return utils.styled("StreamlineIndent", vim.bo.expandtab and spaces or tabs)
 end
 
+function M.macro()
+  local recording_register = vim.fn.reg_recording()
+
+  if recording_register == "" then
+    return ""
+  end
+
+  return utils.styled("StreamlineMacro", " ")
+    .. utils.styled("StreamlineMacroIcon", "󰑋")
+    .. utils.styled("StreamlineMacroText", "Recording @" .. recording_register)
+end
+
 -- local is_requesting = false
 --
 -- function M.set_compainion_state(state)
