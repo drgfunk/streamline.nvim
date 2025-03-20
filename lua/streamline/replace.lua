@@ -2,7 +2,7 @@ local M = {}
 
 function M.setup()
   vim.api.nvim_create_user_command("StreamlineReplace", function()
-    Snacks.input.input({
+    require("snacks").input.input({
       prompt = "Replace: ",
       win = {
         keys = {

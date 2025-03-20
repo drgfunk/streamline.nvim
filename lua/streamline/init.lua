@@ -1,9 +1,20 @@
 -- luacheck: globals vim
 
+---@class StreamlineSection
+---@field left string[]|function[] Components for the left section
+---@field middle string[]|function[] Components for the middle section
+---@field right string[]|function[] Components for the right section
+
+---@class StreamlineConfig
+---@field icon_provider string The icon provider to use
+---@field sections StreamlineSection Configuration for statusline sections
+---@field excluded_filetypes string[] Filetypes where the statusline should be hidden
+
 local M = {}
 local uv = vim.loop
 
 -- Default configuration
+---@type StreamlineConfig
 M.defaults = {
   icon_provider = "mini.icons",
   sections = {
@@ -28,12 +39,15 @@ M.defaults = {
   },
 }
 
+---@type StreamlineConfig
 M.options = {}
 
 -- Main setup function
+---@param opts? StreamlineConfig User configuration to override defaults
 function M.setup(opts)
   require("streamline.highlights").setup()
   require("streamline.replace").setup()
+  require("streamline.js-convert-require").setup()
 
   M.options = vim.tbl_deep_extend("force", {}, M.defaults, opts or {})
 
