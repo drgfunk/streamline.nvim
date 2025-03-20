@@ -47,6 +47,7 @@ M.options = {}
 function M.setup(opts)
   require("streamline.highlights").setup()
   require("streamline.replace").setup()
+  require("streamline.js-convert-require").setup()
 
   M.options = vim.tbl_deep_extend("force", {}, M.defaults, opts or {})
 
