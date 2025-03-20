@@ -131,7 +131,7 @@ Default Options
 | **StreamlineIndent** | Indentation component |
 | **StreamlineMacro** | Space before recording icon |
 | **StreamlineMacroText** | The text after recording icon |
-| **StreamlineMacroIcon** | The recording icon "󰑋"
+| **StreamlineMacroIcon** | The recording icon |
 
 
 ## Credits
