@@ -116,7 +116,7 @@ Default Options
         "snacks_picker_input",
     },
     -- Configure with mini.icons (default) or nvim-web-devicons
-	icon_provider = "mini.icons", 
+    icon_provider = "mini.icons",
 }
 ```
 
