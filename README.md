@@ -8,9 +8,55 @@ A lightweight statusline plugin for Neovim focused on essential information with
 - File information (name, type)
 - Git branch
 - Vim mode indicator
+- Macro recording indicator
 - indentation (tabs or spaces)
 - Customizable highlights
 - Supports multiple icon providers ([mini.icons](https://github.com/echasnovski/mini.icons) or [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons))
+
+## Additional Utilities
+
+Streamline.nvim also includes helpful utility commands:
+
+### JavaScript/TypeScript Require-to-Import Conversion
+
+Quickly convert CommonJS require statements to ES6 import syntax:
+
+```javascript
+// Before:
+const myModule = require("my-module")
+
+// After:
+import myModule from "my-module"
+```
+
+**Usage:**
+- Use the `:StreamlineConvertRequire` command when your cursor is on a require statement
+- Works only in JavaScript and TypeScript files
+- Supports repetition with vim-repeat plugin
+
+**Configuration:**
+```lua
+-- Optional key mapping 
+vim.keymap.set("n", "<Leader>cr", "<Plug>(StreamlineConvertRequire)", { silent = true })
+```
+
+### Word Replacement Utility
+
+Replace all instances of the word under cursor across the file:
+
+**Usage:**
+- Use the `:StreamlineReplace` command when your cursor is on a word
+- Enter the replacement text in the prompt
+- All instances will be replaced while maintaining cursor position
+
+**Dependencies:**
+- Requires the `snacks` plugin for the input prompt
+
+**Configuration:**
+```lua
+-- Optional key mapping
+vim.keymap.set("n", "<Leader>rr", ":StreamlineReplace<CR>", { silent = true })
+```
 
 ## Installation 
 
@@ -56,7 +102,9 @@ Default Options
             "git_branch",
             "filename",
         },
-        middle = {},
+        middle = {
+            "macro"
+        },
         right = {
             "indent",
             "filetype",
@@ -81,6 +129,10 @@ Default Options
 | **StreamlineModified** | Icon when file is modified |
 | **StreamlineFiletype** | File type, icon color determined by icon provider |
 | **StreamlineIndent** | Indentation component |
+| **StreamlineMacro** | Space before recording icon |
+| **StreamlineMacroText** | The text after recording icon |
+| **StreamlineMacroIcon** | The recording icon "󰑋"
+
 
 ## Credits
 
