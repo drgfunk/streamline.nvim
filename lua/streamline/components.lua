@@ -11,6 +11,11 @@ end
 
 function M.git_branch()
   local branch = utils.get_branch_name(20)
+
+  if branch == "" then
+    return ""
+  end
+
   return utils.styled("StreamlineGitBranch", "  " .. branch)
 end
 
@@ -73,7 +78,6 @@ function M.filetype()
   end
 
   return utils.styled("StreamlineFiletype", icon) .. utils.styled("StreamlineFiletype", ft)
-  -- return table.concat({ "%#StreamlineFiletype#", icon, " %#StreamlineFiletype#", ft, " " })
 end
 
 function M.indent()
@@ -81,6 +85,18 @@ function M.indent()
   local spaces = "󱁐 Spaces "
 
   return utils.styled("StreamlineIndent", vim.bo.expandtab and spaces or tabs)
+end
+
+function M.macro()
+  local recording_register = vim.fn.reg_recording()
+
+  if recording_register == "" then
+    return ""
+  end
+
+  return utils.styled("StreamlineMacro", " ")
+    .. utils.styled("StreamlineMacroIcon", "󰑋")
+    .. utils.styled("StreamlineMacroText", "Recording @" .. recording_register)
 end
 
 -- local is_requesting = false
