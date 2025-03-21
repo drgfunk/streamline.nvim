@@ -12,6 +12,13 @@
 
 local M = {}
 local uv = vim.loop
+local state = {
+  codecompanion = {
+    state = "",
+    name = "",
+    spinner_id = "CodeCompanion",
+  },
+}
 
 -- Default configuration
 ---@type StreamlineConfig
@@ -25,6 +32,7 @@ M.defaults = {
     },
     middle = {
       "macro",
+      "codecompanion",
     },
     right = {
       "indent",
@@ -61,6 +69,10 @@ async_render = uv.new_async(vim.schedule_wrap(function()
 end))
 
 function M.load_streamline()
+  if async_render == nil then
+    return
+  end
+
   async_render:send()
 end
 
@@ -75,10 +87,10 @@ local function process_section(components)
     if type(component) == "string" then
       local ok, comp = pcall(require, "streamline.components")
       if ok and comp[component] then
-        table.insert(result, comp[component]())
+        table.insert(result, comp[component](state))
       end
     elseif type(component) == "function" then
-      table.insert(result, component())
+      table.insert(result, component(state))
     end
 
     -- Reset highlight group after each component to avoid carry-over
@@ -147,6 +159,66 @@ function M.streamline_augroup()
     pattern = "*",
     callback = function()
       M.load_streamline()
+    end,
+  })
+
+  M.steamline_codecompanion_augroup()
+  M.steamline_macro_augroup()
+end
+
+-- steamline_macro_augroup
+function M.steamline_macro_augroup()
+  -- Set up autocommand for macro recording
+  local group = vim.api.nvim_create_augroup("MacroRecording", {})
+  local recording_icon_frames = { "󰑋", "󰑋", "󰑋", "󰑋", "󰑋", " ", " ", " ", " ", " " }
+
+  vim.api.nvim_create_autocmd({ "RecordingEnter" }, {
+    group = group,
+    pattern = "*",
+    callback = function()
+      require("streamline.spinner").start(
+        "macro",
+        recording_icon_frames,
+        "StreamlineRecordingIcon",
+        "StreamlineSpinnerText"
+      )
+    end,
+  })
+
+  vim.api.nvim_create_autocmd({ "RecordingLeave" }, {
+    group = group,
+    pattern = "*",
+    callback = function()
+      require("streamline.spinner").stop("macro")
+    end,
+  })
+end
+
+-- steamline_codecompanion_augroup
+function M.steamline_codecompanion_augroup()
+  -- Set up autocommand for updates
+  local group = vim.api.nvim_create_augroup("CodeCompanionHooks", {})
+  local codecompanionState = state.codecompanion
+
+  vim.api.nvim_create_autocmd({ "User" }, {
+    pattern = "CodeCompanionRequest*",
+    group = group,
+    callback = function(request)
+      local name = request.data and request.data.adapter.formatted_name or "unknown"
+      local spinner_id = codecompanionState.spinner_id
+
+      codecompanionState.state = request.match
+      codecompanionState.name = name
+
+      if request.match == "CodeCompanionRequestStarted" then
+        require("streamline.spinner").start(spinner_id)
+      end
+      if request.match == "CodeCompanionRequestStreaming" then
+        require("streamline.spinner").start(spinner_id)
+      end
+      if request.match == "CodeCompanionRequestFinished" then
+        require("streamline.spinner").stop(spinner_id)
+      end
     end,
   })
 end
