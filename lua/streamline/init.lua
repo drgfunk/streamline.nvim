@@ -25,6 +25,7 @@ M.defaults = {
     },
     middle = {
       "macro",
+      "spinner",
     },
     right = {
       "indent",
@@ -53,6 +54,8 @@ function M.setup(opts)
 
   -- Initial render
   M.render()
+
+  require("streamline.components").start_spinner("Processing...")
 end
 
 local async_render
