@@ -18,7 +18,7 @@ function M.spinner()
   end
 
   local frame = spinner_frames[spinner.frame]
-  return utils.styled("StreamlineSpinner", frame .. " " .. spinner.text)
+  return utils.styled("StreamlineSpinner", " " .. frame) .. utils.styled("StreamlineSpinnerText", spinner.text)
 end
 
 function M.start_spinner(text)

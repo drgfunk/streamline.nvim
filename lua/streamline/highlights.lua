@@ -30,6 +30,8 @@ function M.setup()
     vim.api.nvim_set_hl(0, "StreamlineMacro", { bg = rose_pine.surface })
     vim.api.nvim_set_hl(0, "StreamlineMacroText", { fg = rose_pine.subtle, bg = rose_pine.surface })
     vim.api.nvim_set_hl(0, "StreamlineMacroIcon", { fg = rose_pine.love, bg = rose_pine.surface })
+    vim.api.nvim_set_hl(0, "StreamlineSpinner", { fg = rose_pine.foam, bg = rose_pine.overlay })
+    vim.api.nvim_set_hl(0, "StreamlineSpinnerText", { fg = rose_pine.subtle, bg = rose_pine.overlay })
   end
 end
 
