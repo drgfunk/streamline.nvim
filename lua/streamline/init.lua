@@ -54,8 +54,6 @@ function M.setup(opts)
 
   -- Initial render
   M.render()
-
-  require("streamline.components").start_spinner("Processing...")
 end
 
 local async_render
@@ -150,6 +148,37 @@ function M.streamline_augroup()
     pattern = "*",
     callback = function()
       M.load_streamline()
+    end,
+  })
+
+  M.steamline_codecompanion_augroup()
+end
+
+-- steamline_codecompanion_augroup
+function M.steamline_codecompanion_augroup()
+  -- Set up autocommand for updates
+  local group = vim.api.nvim_create_augroup("CodeCompanionHooks", {})
+
+  vim.api.nvim_create_autocmd({ "User" }, {
+    pattern = "CodeCompanionRequest*",
+    group = group,
+    callback = function(request)
+      local name = request.data and request.data.adapter.formatted_name or "unknown"
+
+      -- do something if request.match is CodeCompanionRequestStarted
+      if request.match == "CodeCompanionRequestStarted" then
+        print("CodeCompanionRequestStarted", request.match)
+        require("streamline.spinner").start_spinner(" Requesting (" .. name .. ")")
+      end
+      -- if CodeCompanionRequestStreaming
+      if request.match == "CodeCompanionRequestStreaming" then
+        print("CodeCompanionRequestStreaming", request.match)
+        require("streamline.spinner").start_spinner(" Responding (" .. name .. ")")
+      end
+      if request.match == "CodeCompanionRequestFinished" then
+        print("CodeCompanionRequestFinished", request.match)
+        require("streamline.spinner").stop_spinner()
+      end
     end,
   })
 end
