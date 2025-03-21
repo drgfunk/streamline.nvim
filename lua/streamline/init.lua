@@ -25,7 +25,7 @@ M.defaults = {
     },
     middle = {
       "macro",
-      "spinner",
+      "codecompanion",
     },
     right = {
       "indent",
@@ -167,16 +167,13 @@ function M.steamline_codecompanion_augroup()
 
       -- do something if request.match is CodeCompanionRequestStarted
       if request.match == "CodeCompanionRequestStarted" then
-        print("CodeCompanionRequestStarted", request.match)
-        require("streamline.spinner").start_spinner(" Requesting (" .. name .. ")")
+        require("streamline.spinner").start_spinner(" Thinking (" .. name .. ")")
       end
       -- if CodeCompanionRequestStreaming
       if request.match == "CodeCompanionRequestStreaming" then
-        print("CodeCompanionRequestStreaming", request.match)
         require("streamline.spinner").start_spinner(" Responding (" .. name .. ")")
       end
       if request.match == "CodeCompanionRequestFinished" then
-        print("CodeCompanionRequestFinished", request.match)
         require("streamline.spinner").stop_spinner()
       end
     end,
