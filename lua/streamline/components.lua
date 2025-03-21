@@ -94,14 +94,36 @@ function M.macro()
     return ""
   end
 
+  local spinner = require("streamline.spinner").spinner("macro")
+
   return utils.styled("StreamlineMacro", " ")
-    .. utils.styled("StreamlineMacroIcon", "󰑋")
+    .. spinner
     .. utils.styled("StreamlineMacroText", "Recording @" .. recording_register)
 end
 
-function M.codecompanion()
+function M.codecompanion(pluginState)
   local spinner = require("streamline.spinner")
-  return spinner.spinner()
+
+  if not pluginState or not pluginState.codecompanion then
+    return ""
+  end
+
+  local cc_state = pluginState.codecompanion
+  local state = cc_state.state
+  local spinner_id = cc_state.spinner_id
+  local name = cc_state.name or "CodeCompanion"
+
+  local spinnerStr = spinner.spinner(spinner_id)
+
+  if state == "CodeCompanionRequestStarted" then
+    return spinnerStr .. utils.styled("StreamlineSpinnerText", " " .. name .. " is thinking")
+  elseif state == "CodeCompanionRequestStreaming" then
+    return spinnerStr .. utils.styled("StreamlineSpinnerText", " " .. name .. " is responding")
+  elseif state == "CodeCompanionRequestFinished" then
+    spinner.stop("CodeCompanionRequest")
+  end
+
+  return ""
 end
 
 return M
