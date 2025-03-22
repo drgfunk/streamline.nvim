@@ -8,5 +8,6 @@ M.filetype = require("streamline.components.filetype").filetype
 M.indent = require("streamline.components.indent").indent
 M.macro = require("streamline.components.macro").macro
 M.codecompanion = require("streamline.components.codecompanion").codecompanion
+M.spinnertest = require("streamline.components.spinnertest").spinnertest
 
 return M

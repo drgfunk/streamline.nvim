@@ -4,13 +4,12 @@ local utils = require("streamline.utils")
 function M.setup()
   -- Set up autocommand for macro recording
   local group = vim.api.nvim_create_augroup("MacroRecording", {})
-  local recording_icon_frames = { "󰑋", "󰑋", "󰑋", "󰑋", "󰑋", " ", " ", " ", " ", " " }
 
   vim.api.nvim_create_autocmd({ "RecordingEnter" }, {
     group = group,
     pattern = "*",
     callback = function()
-      require("streamline.spinner").start("macro", recording_icon_frames, "StreamlineRecordingIcon")
+      require("streamline.spinner").start("macro", "recordingButton")
     end,
   })
 
