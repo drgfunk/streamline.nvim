@@ -33,6 +33,10 @@ function M.setup()
     vim.api.nvim_set_hl(0, "StreamlineSpinner", { fg = rose_pine.foam, bg = rose_pine.overlay })
     vim.api.nvim_set_hl(0, "StreamlineSpinnerText", { fg = rose_pine.subtle, bg = rose_pine.overlay })
     vim.api.nvim_set_hl(0, "StreamlineRecordingIcon", { fg = rose_pine.love, bg = rose_pine.overlay })
+    vim.api.nvim_set_hl(0, "StreamlineRecording", { fg = rose_pine.love, bg = rose_pine.overlay })
+    vim.api.nvim_set_hl(0, "StreamlineCodecompanionText", { fg = rose_pine.subtle, bg = rose_pine.overlay })
+    vim.api.nvim_set_hl(0, "StreamlineCodecompanionSpinnerOn", { fg = rose_pine.subtle, bg = rose_pine.overlay })
+    vim.api.nvim_set_hl(0, "StreamlineCodecompanionSpinnerOff", { fg = "#403d52", bg = rose_pine.overlay })
   end
 end
 
