@@ -8,64 +8,6 @@ local state = {
   spinner_id = "CodeCompanion",
 }
 
-local spinnerFrames = {}
-local function setupSpinnerFrames()
-  -- Define highlight group constants for better readability
-  local ON = "%#StreamlineCodecompanionSpinnerOn#"
-  local OFF = "%#StreamlineCodecompanionSpinnerOff#"
-
-  -- Define the unique frame patterns
-  --   
-  --   
-  --   
-  local patterns = {
-    ON .. " " .. OFF .. "  ",
-    OFF .. " " .. ON .. " " .. OFF .. " ",
-    OFF .. "  " .. ON .. " ",
-  }
-
-  spinnerFrames = {}
-  for _, pattern in ipairs(patterns) do
-    for _ = 1, 4 do
-      table.insert(spinnerFrames, pattern)
-    end
-  end
-end
-
-local function setupHooks()
-  local group = vim.api.nvim_create_augroup("CodeCompanionHooks", {})
-
-  -- Define event mappings
-  local spinner_start_events = {
-    ["CodeCompanionRequestStarted"] = true,
-    ["CodeCompanionRequestStreaming"] = true,
-    ["CodeCompanionRequestStartedInlineStarted"] = true,
-  }
-
-  local spinner_stop_events = {
-    ["CodeCompanionRequestFinished"] = true,
-    ["CodeCompanionInlineFinished"] = true,
-  }
-
-  vim.api.nvim_create_autocmd({ "User" }, {
-    pattern = "CodeCompanionRequest*",
-    group = group,
-    callback = function(request)
-      local name = request.data and request.data.adapter.formatted_name or "unknown"
-      local spinner_id = state.spinner_id
-
-      state.state = request.match
-      state.name = name
-
-      if spinner_start_events[request.match] then
-        require("streamline.spinner").start(spinner_id, spinnerFrames)
-      elseif spinner_stop_events[request.match] then
-        require("streamline.spinner").stop(spinner_id)
-      end
-    end,
-  })
-end
-
 function M.codecompanion()
   local spinner_id = state.spinner_id
   local name = state.name or "CodeCompanion"
@@ -104,8 +46,37 @@ function M.codecompanion()
 end
 
 function M.setup()
-  setupSpinnerFrames()
-  setupHooks()
+  local group = vim.api.nvim_create_augroup("CodeCompanionHooks", {})
+
+  -- Define event mappings
+  local spinner_start_events = {
+    ["CodeCompanionRequestStarted"] = true,
+    ["CodeCompanionRequestStreaming"] = true,
+    ["CodeCompanionRequestStartedInlineStarted"] = true,
+  }
+
+  local spinner_stop_events = {
+    ["CodeCompanionRequestFinished"] = true,
+    ["CodeCompanionInlineFinished"] = true,
+  }
+
+  vim.api.nvim_create_autocmd({ "User" }, {
+    pattern = "CodeCompanionRequest*",
+    group = group,
+    callback = function(request)
+      local name = request.data and request.data.adapter.formatted_name or "unknown"
+      local spinner_id = state.spinner_id
+
+      state.state = request.match
+      state.name = name
+
+      if spinner_start_events[request.match] then
+        require("streamline.spinner").start(spinner_id, "dotProgressSpinner")
+      elseif spinner_stop_events[request.match] then
+        require("streamline.spinner").stop(spinner_id)
+      end
+    end,
+  })
 end
 
 M.setup()

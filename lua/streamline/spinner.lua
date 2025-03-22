@@ -3,19 +3,68 @@ local utils = require("streamline.utils")
 
 local spinner_frames = { " ◜", " ◠", " ◝", " ◞", " ◡", " ◟" }
 
+local function getDotProgressSpinner()
+  -- Define highlight group constants for better readability
+  local ON = "%#StreamlineCodecompanionSpinnerOn#"
+  local OFF = "%#StreamlineCodecompanionSpinnerOff#"
+
+  -- Define the unique frame patterns
+  --   
+  --   
+  --   
+  local patterns = {
+    ON .. " " .. OFF .. "  ",
+    OFF .. " " .. ON .. " " .. OFF .. " ",
+    OFF .. "  " .. ON .. " ",
+  }
+
+  local frames = {}
+  for _, pattern in ipairs(patterns) do
+    for _ = 1, 4 do
+      table.insert(frames, pattern)
+    end
+  end
+
+  return frames
+end
+
+local getRecordingSpinner = function()
+  local ON = "%#StreamlineRecordingIcon#"
+
+  local patterns = {
+    ON .. "󰑋",
+    " ",
+  }
+
+  local frames = {}
+  for _, pattern in ipairs(patterns) do
+    for _ = 1, 5 do
+      table.insert(frames, pattern)
+    end
+  end
+
+  return frames
+end
+
+local spinnerTypes = {
+  default = spinner_frames,
+  recordingButton = getRecordingSpinner(),
+  dotProgressSpinner = getDotProgressSpinner(),
+}
+
 -- Store all spinners in a table indexed by ID
 local spinners = {}
 -- Global timer for all spinners
 local global_timer = nil
 
 -- Create a new spinner instance
-function M.create(id, frames, spinner_hl)
+function M.create(id, type, spinner_hl)
   -- Create a new spinner if it doesn't already exist
   if not spinners[id] then
     spinners[id] = {
       active = false,
+      type = type or "default",
       frame = 1,
-      frames = frames,
       spinner_hl = spinner_hl or "StreamlineSpinner",
     }
   end
@@ -23,10 +72,10 @@ function M.create(id, frames, spinner_hl)
 end
 
 -- Start a spinner by ID
-function M.start(id, frames, spinner_hl)
+function M.start(id, type, spinner_hl)
   -- Create spinner if it doesn't exist
   if not spinners[id] then
-    M.create(id, frames, spinner_hl)
+    M.create(id, type, spinner_hl)
   end
 
   -- Update spinner state
@@ -49,9 +98,9 @@ function M.start(id, frames, spinner_hl)
           -- Update all active spinners
           for _, spinner in pairs(spinners) do
             if spinner.active then
-              local frms = spinner.frames or spinner_frames
+              local frames = spinnerTypes[spinner.type] or spinner_frames
               any_active = true
-              spinner.frame = (spinner.frame % #frms) + 1
+              spinner.frame = (spinner.frame % #frames) + 1
             end
           end
 
@@ -106,7 +155,7 @@ function M.spinner(id)
       return ""
     end
 
-    local frames = spinner.frames or spinner_frames
+    local frames = spinnerTypes[spinner.type] or spinner_frames
     local frame = frames[spinner.frame]
     return utils.styled(spinner.spinner_hl, "" .. frame)
   end
