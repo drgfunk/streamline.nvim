@@ -29,11 +29,12 @@ local function getDotProgressSpinner()
 end
 
 local getRecordingSpinner = function()
-  local ON = "%#StreamlineRecordingIcon#"
+  local ON = "%#StreamlineRecordingOn#"
+  local OFF = "%#StreamlineRecordingOff#"
 
   local patterns = {
     ON .. "󰑋",
-    " ",
+    OFF .. "󰑋",
   }
 
   local frames = {}
