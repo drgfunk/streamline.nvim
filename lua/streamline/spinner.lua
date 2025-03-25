@@ -5,8 +5,8 @@ local spinner_frames = { " ◜", " ◠", " ◝", " ◞", " ◡", " ◟" }
 
 local function getDotProgressSpinner()
   -- Define highlight group constants for better readability
-  local ON = "%#StreamlineCodecompanionSpinnerOn#"
-  local OFF = "%#StreamlineCodecompanionSpinnerOff#"
+  local ON = "%#StreamlineSpinnerDotProgressOn#"
+  local OFF = "%#StreamlineSpinnerDotProgressOff#"
 
   -- Define the unique frame patterns
   --   
@@ -29,8 +29,8 @@ local function getDotProgressSpinner()
 end
 
 local getRecordingSpinner = function()
-  local ON = "%#StreamlineRecordingOn#"
-  local OFF = "%#StreamlineRecordingOff#"
+  local ON = "%#StreamlineSpinnerRecordingOn#"
+  local OFF = "%#StreamlineSpinnerRecordingOff#"
 
   local patterns = {
     ON .. "󰑋",

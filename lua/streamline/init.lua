@@ -46,7 +46,7 @@ M.options = {}
 -- Main setup function
 ---@param opts? StreamlineConfig User configuration to override defaults
 function M.setup(opts)
-  require("streamline.highlights").setup()
+  require("streamline.themes").setup()
   require("streamline.replace").setup()
   require("streamline.js-convert-require").setup()
 

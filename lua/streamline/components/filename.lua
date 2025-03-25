@@ -10,9 +10,19 @@ function M.filename()
     return utils.styled("StreamlineFilename", "[No Name]")
   end
 
-  -- Check if buffer is a scratch buffer
-  if string.match(string.lower(current_name), "nvim/scratch") then
-    current_name = "Scratch"
+  -- Define special buffer patterns and their display names
+  local special_buffers = {
+    { "nvim/scratch", "Scratch" },
+    { "codecompanion", "Code Companion" },
+  }
+
+  -- Check if buffer matches any special pattern
+  for _, buffer_info in ipairs(special_buffers) do
+    local pattern, display_name = buffer_info[1], buffer_info[2]
+    if string.match(string.lower(current_name), pattern) then
+      current_name = display_name
+      break
+    end
   end
 
   local base_name = vim.fn.fnamemodify(current_name, ":t")
