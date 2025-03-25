@@ -67,10 +67,10 @@ end
 local function add_background_to_highlight(group_name, bg_color)
   local existing_hl = vim.api.nvim_get_hl_by_name(group_name, true) -- Get existing highlight
 
-  if existing_hl then -- Check if the highlight group exists
+  -- if existing_hl has fg and bg, update the bg
+  if existing_hl.foreground then
     local new_hl = vim.deepcopy(existing_hl) -- Create a copy to avoid modifying the original
     new_hl.bg = bg_color -- Set the background color
-
     vim.api.nvim_set_hl(0, "StreamlineFiletypeIcon", new_hl) -- Update the highlight
   else
     print("Highlight group '" .. group_name .. "' not found.")
