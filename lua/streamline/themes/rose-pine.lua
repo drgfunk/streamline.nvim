@@ -20,7 +20,7 @@ function M.get_highlights()
     StreamlineSpinnerRecordingOff = { fg = rose_pine.base, bg = rose_pine.overlay },
     StreamlineCodecompanionText = { fg = rose_pine.subtle, bg = rose_pine.overlay },
     StreamlineSpinnerDotProgressOn = { fg = rose_pine.subtle, bg = rose_pine.overlay },
-    StreamlineSpinnerDotProgressOff = { fg = "#403d52", bg = rose_pine.overlay },
+    StreamlineSpinnerDotProgressOff = { fg = rose_pine.highlight_med, bg = rose_pine.overlay },
   }
 end
 
