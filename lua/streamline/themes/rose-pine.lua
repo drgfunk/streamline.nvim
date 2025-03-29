@@ -4,7 +4,7 @@ local M = {}
 function M.get_highlights()
   local rose_pine = require("rose-pine.palette")
   return {
-    StreamlineBar = { fg = rose_pine.text, bg = rose_pine.surface }, -- Background for the Streamline bar
+    StreamlineBar = { bg = "NONE" }, -- Background for the Streamline bar
     StreamlineFilename = { fg = rose_pine.muted, bg = rose_pine.transparent },
     StreamlineFiletype = { fg = rose_pine.base, bg = rose_pine.text },
     StreamlineGitBranch = { fg = rose_pine.text, bg = rose_pine.overlay },
