@@ -1,5 +1,3 @@
--- luacheck: globals vim
-
 ---@class StreamlineSection
 ---@field left string[]|function[] Components for the left section
 ---@field middle string[]|function[] Components for the middle section
@@ -87,7 +85,7 @@ local function process_section(components)
     end
 
     -- Reset highlight group after each component to avoid carry-over
-    table.insert(result, "%#Streamline#")
+    table.insert(result, "%#StreamlineBar#")
   end
   return table.concat(result, "")
 end
