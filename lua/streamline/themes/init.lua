@@ -1,12 +1,22 @@
 -- lua/streamline/themes/init.lua
--- luacheck: globals vim
 
 local M = {}
+local streamline_groups = {} -- Track our highlight groups
 
 -- Apply a theme's highlight groups
 function M.apply_theme(theme_highlights)
+  -- Store the list of highlight groups we're managing
+  streamline_groups = {}
   for group_name, hl_config in pairs(theme_highlights) do
     vim.api.nvim_set_hl(0, group_name, hl_config)
+    table.insert(streamline_groups, group_name)
+  end
+end
+
+-- Clear only Streamline highlights
+function M.clear_highlights()
+  for _, group_name in ipairs(streamline_groups) do
+    pcall(vim.api.nvim_set_hl, 0, group_name, {})
   end
 end
 
@@ -34,8 +44,11 @@ local function is_using_colorscheme(colorscheme_list)
   return false
 end
 
--- Setup themes
-function M.setup()
+-- Reload the appropriate theme based on current state
+function M.reload_theme()
+  -- Clear existing Streamline highlights
+  M.clear_highlights()
+
   -- load default theme
   local ok, theme = pcall(require, "streamline.themes.default")
   if ok and theme.get_highlights then
@@ -48,8 +61,22 @@ function M.setup()
     M.try_load_theme("rose-pine")
     return
   end
+end
 
-  -- Could add config option here to load other themes by user preference
+-- Setup themes
+function M.setup()
+  -- Initial theme loading
+  M.reload_theme()
+
+  -- Create autocmd to detect background changes
+  vim.api.nvim_create_autocmd("OptionSet", {
+    pattern = "background",
+    callback = function()
+      -- Reload the appropriate theme
+      M.reload_theme()
+    end,
+    desc = "Reload Streamline theme when background changes",
+  })
 end
 
 return M
