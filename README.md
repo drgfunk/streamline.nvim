@@ -123,6 +123,7 @@ Default Options
 ## Colors
 | Highlight Group | Description |
 | --- | --- |
+| **StreamlineBar** | Background for the Streamline bar |
 | **StreamlineMode** | Vim file mode component |
 | **StreamlineGitBranch** | Git branch component and icon |
 | **StreamlineFilename** | File name |
@@ -132,6 +133,12 @@ Default Options
 | **StreamlineMacro** | Space before recording icon |
 | **StreamlineMacroText** | The text after recording icon |
 | **StreamlineMacroIcon** | The recording icon |
+| **StreamlineSpinnerCircle** | Circle spinner animation |
+| **StreamlineSpinnerRecordingOn** | Recording spinner when active |
+| **StreamlineSpinnerRecordingOff** | Recording spinner when inactive |
+| **StreamlineCodecompanionText** | Text shown for the CodeCompanion component |
+| **StreamlineSpinnerDotProgressOn** | Dot progress spinner when active |
+| **StreamlineSpinnerDotProgressOff** | Dot progress spinner when inactive |
 
 
 ## Credits
