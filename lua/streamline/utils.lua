@@ -56,10 +56,39 @@ function M.get_branch_name(max_length)
 
   if branch and branch ~= "" then
     branch = branch:gsub("^%s*(.-)%s*$", "%1")
-    if #branch > max_length then
-      return branch:sub(1, max_length - 3) .. "..."
+
+    if #branch <= max_length then
+      return branch
     end
-    return branch
+
+    -- Path-like branch names (e.g., "feature/ABC-123/description")
+    if branch:find("/") then
+      local first_part = branch:match("^([^/]+)")
+      local last_part = branch:match("([^/]+)$")
+
+      if first_part and last_part and first_part ~= last_part then
+        if #first_part + #last_part + 5 <= max_length then
+          return first_part .. "/.../" .. last_part
+        else
+          local available = max_length - 4 -- space for ".../""
+          return ".../" .. last_part:sub(1, available)
+        end
+      end
+    end
+
+    -- Issue-ID branches (e.g., "ABC-123-fix-bug")
+    local issue_id = branch:match("^([A-Z]+-[0-9]+)")
+    if issue_id and #issue_id < max_length - 4 then
+      local remaining = max_length - #issue_id - 1
+      return issue_id .. "-" .. branch:sub(#issue_id + 2, #issue_id + remaining - 2) .. "..."
+    end
+
+    -- Balanced truncation (show start and end)
+    local ellipsis = "..."
+    local start_chars = math.floor((max_length - #ellipsis) / 2)
+    local end_chars = max_length - #ellipsis - start_chars
+
+    return branch:sub(1, start_chars) .. ellipsis .. branch:sub(-end_chars)
   end
   return ""
 end

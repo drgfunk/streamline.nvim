@@ -46,8 +46,40 @@ function M.filename()
     base_name = vim.fn.fnamemodify(current_name, ":h:t") .. "/" .. base_name
   end
 
-  if #base_name > 20 then
-    base_name = "..." .. base_name:sub(-20)
+  -- Smart truncation of filename
+  local max_length = 24
+  if #base_name > max_length then
+    -- Extract file extension if present
+    local name_part, ext_part = base_name:match("(.*)%.([^%.]+)$")
+
+    if name_part and ext_part then
+      -- If we have an extension, preserve it and parts of the name
+      local ellipsis = "..."
+      local ext_with_dot = "." .. ext_part
+      local avail_length = max_length - #ellipsis - #ext_with_dot
+
+      if avail_length >= 6 then
+        -- Keep parts from both beginning and end of name
+        local start_len = math.ceil(avail_length * 0.6) -- 60% from start
+        local end_len = avail_length - start_len -- 40% from end
+
+        if end_len >= 2 then
+          base_name = name_part:sub(1, start_len) .. ellipsis .. name_part:sub(-end_len) .. ext_with_dot
+        else
+          -- Not enough space for end, use more from beginning
+          base_name = name_part:sub(1, avail_length) .. ellipsis .. ext_with_dot
+        end
+      else
+        -- Very short available space, truncate simpler
+        base_name = name_part:sub(1, math.max(1, avail_length)) .. ellipsis .. ext_with_dot
+      end
+    else
+      -- No extension, balanced truncation
+      local ellipsis = "..."
+      local start_chars = math.ceil((max_length - #ellipsis) * 0.6)
+      local end_chars = max_length - #ellipsis - start_chars
+      base_name = base_name:sub(1, start_chars) .. ellipsis .. base_name:sub(-end_chars)
+    end
   end
 
   local modified_indicator = vim.bo.modified and "%#StreamlineModified# 󰧞" or ""
