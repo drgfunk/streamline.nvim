@@ -33,7 +33,6 @@ function M.conform_status()
     return "%#StreamlineConformDisabled#󰉠  %#StreamlineBar#"
   end
 
-  return ""
 end
 
 return M
