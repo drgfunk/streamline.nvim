@@ -19,6 +19,7 @@ M.defaults = {
     left = {
       "mode",
       "git_branch",
+      "conform_status",
       "filename",
     },
     middle = {

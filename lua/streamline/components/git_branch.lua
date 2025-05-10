@@ -8,7 +8,7 @@ function M.git_branch()
     return ""
   end
 
-  return utils.styled("StreamlineGitBranch", "  " .. branch)
+  return utils.styled("StreamlineGitBranch", "  " .. branch .. " %#StreamlineBar# ")
 end
 
 return M

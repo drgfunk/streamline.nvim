@@ -20,6 +20,8 @@ function M.get_highlights()
     StreamlineCodecompanionText = { fg = rose_pine.subtle, bg = rose_pine.overlay },
     StreamlineSpinnerDotProgressOn = { fg = rose_pine.subtle, bg = rose_pine.overlay },
     StreamlineSpinnerDotProgressOff = { fg = rose_pine.highlight_med, bg = rose_pine.overlay },
+    StreamlineConformEnabled = { fg = rose_pine.subtle, bg = "NONE" },
+    StreamlineConformDisabled = { fg = rose_pine.highlight_high, bg = "NONE" },
   }
 end
 

@@ -10,6 +10,7 @@ A lightweight statusline plugin for Neovim focused on essential information with
 - Vim mode indicator
 - Macro recording indicator
 - indentation (tabs or spaces)
+- Conform formatting status indicator
 - Customizable highlights
 - Supports multiple icon providers ([mini.icons](https://github.com/echasnovski/mini.icons) or [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons))
 
@@ -100,6 +101,7 @@ Default Options
         left = {
             "mode",
             "git_branch",
+            "conform_status",
             "filename",
         },
         middle = {
@@ -139,6 +141,8 @@ Default Options
 | **StreamlineCodecompanionText** | Text shown for the CodeCompanion component |
 | **StreamlineSpinnerDotProgressOn** | Dot progress spinner when active |
 | **StreamlineSpinnerDotProgressOff** | Dot progress spinner when inactive |
+| **StreamlineConformEnabled** | Conform formatting status icon when enabled |
+| **StreamlineConformDisabled** | Conform formatting status icon when disabled |
 
 
 ## Credits
