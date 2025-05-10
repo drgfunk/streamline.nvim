@@ -86,7 +86,7 @@ function M.filename()
 
   return table.concat({
     "%#StreamlineFilename#",
-    "  ",
+    "",
     base_name,
     modified_indicator,
     "  ",

@@ -11,6 +11,7 @@ function M.get_highlights()
 
   return {
     Streamline = { link = "Normal" },
+    StreamlineBar = { link = "Normal" }, -- Background for the Streamline bar
     StreamlineFilename = { fg = comment_hl.fg, bg = normal_hl.bg },
     StreamlineModified = { fg = warning_hl.fg, bg = normal_hl.bg },
     StreamlineFiletype = { link = "StatusLine" },
@@ -26,6 +27,8 @@ function M.get_highlights()
     StreamlineCodecompanionText = { link = "StatusLine" },
     StreamlineSpinnerDotProgressOff = { link = "StatusLine" },
     StreamlineSpinnerDotProgressOn = { fg = "gray", bg = statusline_hl.bg },
+    StreamlineConformEnabled = { fg = comment_hl.fg, bg = normal_hl.bg },
+    StreamlineConformDisabled = { fg = "gray", bg = normal_hl.bg },
   }
 end
 

@@ -9,5 +9,6 @@ M.indent = require("streamline.components.indent").indent
 M.macro = require("streamline.components.macro").macro
 M.codecompanion = require("streamline.components.codecompanion").codecompanion
 M.spinnertest = require("streamline.components.spinnertest").spinnertest
+M.conform_status = require("streamline.components.conform_status").conform_status
 
 return M
