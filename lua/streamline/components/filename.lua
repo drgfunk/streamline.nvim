@@ -47,7 +47,20 @@ function M.filename()
   end
 
   -- Smart truncation of filename
-  local max_length = 24
+  local function calculate_max_filename_Length()
+    local win_width = vim.api.nvim_win_get_width(0)
+    local percentage = 0.3 -- 30% of window width
+    local calculated_length = math.floor(win_width * percentage)
+
+    -- Set reasonable bounds
+    local min_length = 16
+    local max_length = 60
+
+    return math.max(min_length, math.min(max_length, calculated_length))
+  end
+
+  local max_length = calculate_max_filename_Length()
+
   if #base_name > max_length then
     -- Extract file extension if present
     local name_part, ext_part = base_name:match("(.*)%.([^%.]+)$")
