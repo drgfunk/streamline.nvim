@@ -19,6 +19,6 @@ function M.setup()
   require("streamline.spinner").start("spinnertestDot", "dotProgressSpinner")
 end
 
-M.setup()
+-- M.setup()
 
 return M

@@ -126,6 +126,8 @@ end
 function M.stop(id)
   if spinners[id] then
     spinners[id].active = false
+    -- Actually remove inactive spinners
+    spinners[id] = nil
   end
 
   -- Check if any spinners are still active
